@@ -8,6 +8,8 @@ id,nome,destaque,descricao,imagem
 7,Python,true,Linguagem de programação interpretada de alto nível.,https://github.com/portfolio-projetos-dev/assets/raw/main/images/python.svg
 8,NestJS,true,Framework para construção de aplicações back-end em Node.js.,https://github.com/portfolio-projetos-dev/assets/raw/main/images/nest.svg
 9,Express.js,false,Framework web minimalista para Node.js.,https://github.com/portfolio-projetos-dev/assets/raw/main/images/express.svg
+10,Prisma,true,ORM moderno para Node.js e TypeScript com type-safety.,https://github.com/portfolio-projetos-dev/assets/raw/main/images/prisma.svg
+11,Swagger,true,Documentação de API automatizada e interativa.,https://github.com/portfolio-projetos-dev/assets/raw/main/images/swagger.svg
 10,React,true,Biblioteca JavaScript para construção de interfaces de usuário.,https://github.com/portfolio-projetos-dev/assets/raw/main/images/react.svg
 11,Vue.js,false,Framework progressivo para construção de interfaces de usuário.,https://github.com/portfolio-projetos-dev/assets/raw/main/images/vue.svg
 12,Angular,false,Framework front-end desenvolvido pelo Google.,https://github.com/portfolio-projetos-dev/assets/raw/main/images/angular.svg

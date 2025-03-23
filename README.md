@@ -1,118 +1,96 @@
-# Portfolio RM75
+# 🧑‍💻 Portfolio RM75
 
-Projeto base para armazenamento e apresentação de projetos pessoais, desenvolvido com o auxílio do Trae AI como assistente de codificação para garantir as melhores práticas de desenvolvimento e manutenção do código.
+<div align="center">
 
-## Stack Tecnológica
+<img src="./.gitassets/capa.png" width="350px">
 
-- **Backend**: NestJS
-- **Banco de Dados**: Supabase (PostgreSQL)
-- **ORM**: Prisma
-- **Documentação**: NestJS Swagger
+<div data-badges>
+    <img src="https://img.shields.io/github/stars/portfolio-projetos-dev/portfoleo?style=for-the-badge" alt="GitHub stars" />
+    <img src="https://img.shields.io/github/forks/portfolio-projetos-dev/portfoleo?style=for-the-badge" alt="GitHub forks" />
+    <img src="https://img.shields.io/github/issues/portfolio-projetos-dev/portfoleo?style=for-the-badge" alt="GitHub issues" />
+</div>
 
-## Pré-requisitos
+<div data-badges>
+  <img src="https://img.shields.io/badge/next.js-%23000000.svg?style=for-the-badge&logo=nextdotjs&logoColor=white" alt="Next.js" />
+    <img src="https://img.shields.io/badge/nestjs-%23E0234E.svg?style=for-the-badge&logo=nestjs&logoColor=white" alt="NestJS" />
+    <img src="https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
+    <img src="https://img.shields.io/badge/prisma-%232D3748.svg?style=for-the-badge&logo=prisma&logoColor=white" alt="Prisma" />
+    <img src="https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="TailwindCSS" />
+    <img src="https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB" alt="React" />
+    <img src="https://img.shields.io/badge/n8n-%2300C4B4.svg?style=for-the-badge&logo=n8n&logoColor=white" alt="n8n" />
+    <img src="https://img.shields.io/badge/supabase-%233ECF8E.svg?style=for-the-badge&logo=supabase&logoColor=white" alt="Supabase" />
+</div>
 
-- Node.js (versão 18 ou superior)
-- npm ou yarn
-- Conta no Supabase
-- PostgreSQL
+</div>
 
-## Configuração do Ambiente
+O Portfoleo é uma aplicação full stack que integra tecnologias populares do mercado para criar uma vitrine digital das habilidades e projetos de um desenvolvedor. Esta plataforma vai além da simples exibição de trabalhos anteriores, funcionando como uma demonstração prática das capacidades técnicas do profissional, evidenciando seu domínio em desenvolvimento web moderno.
 
-1. **Clone o repositório**
-```bash
-git clone https://github.com/seu-usuario/portfolio.rm75.git
-cd portfolio.rm75
-```
+Além de apresentar os projetos do desenvolvedor, a aplicação incorpora agentes de IA inteligentes que têm acesso completo ao currículo, repositórios do GitHub e histórico do profissional. Essa integração permite que recrutadores e potenciais clientes explorem, através de interações em tempo real via chat, aspectos específicos das competências técnicas do desenvolvedor. Os chats com os agentes oferecem insights valiosos, permitindo que visitantes façam perguntas e recebam informações detalhadas sobre as habilidades e experiências do profissional, tornando o processo de avaliação mais dinâmico e informativo.
 
-2. **Instale as dependências**
-```bash
-npm install
-```
+## 🖥️ Como rodar este projeto 🖥️
 
-3. **Configure as variáveis de ambiente**
-Crie um arquivo `.env` na raiz do projeto:
-```env
-DATABASE_URL="sua-url-do-supabase"
-SUPABASE_KEY="sua-chave-do-supabase"
-PORT=3000
-```
+### Requisitos:
 
-4. **Execute as migrações do Prisma**
-```bash
-npx prisma migrate dev
-```
+-   Node.js instalado
 
-## Estrutura do Projeto
+### Execução:
 
-```
-portfolio.rm75/
-├── backend/           # API NestJS
-├── core/             # Código compartilhado
-├── prisma/           # Schemas e migrações
-└── docs/             # Documentação
-```
+1. Clone este repositório:
 
-## Scripts Disponíveis
+    ```sh
+    git clone https://github.com/portfolio-projetos-dev/portfoleo.git
+    ```
 
-```bash
-# Desenvolvimento
-npm run start:dev
+2. Acesse o diretório do projeto:
 
-# Build
-npm run build
+    ```shhttps://github.com/RogerioMatos75/portfolio.rm75.git
+    cd portfoleo
+    ```
 
-# Testes
-npm run test
-npm run test:e2e
+3. Acesse sua conta no [Supabase](https://supabase.com) ou crie uma nova conta.
 
-# Prisma
-npm run prisma:studio
-npm run prisma:migrate
-```
+4. Navegue até o projeto no Supabase e clique no botão `connect`.
+   
+5. Clique em selecionar ORM e selecione o ORM Prisma.
+   
+6. Copie as variáveis de ambiente listadas, crie um arquivo `.env` na pasta backend e preencha com as seguintes informações:
+    ```
+    DATABASE_URL=
+    DIRECT_URL=
+    PORT=
+    ```
+    **Obs: Caso o valor da porta não seja adicionado, a aplicação rodará por padrão na porta 4000**
 
-## Deployment
+7. Crie uma conta no site no [n8n](https://n8n.io), e importe o fluxo definido no arquivo assistente-pessoal que está na pasta assets.
 
-O projeto está configurado para deploy na Vercel, aproveitando:
-- Integração contínua com GitHub
-- SSL automático
-- Domínio personalizado
-- Variáveis de ambiente seguras
-- Logs em tempo real
+8. Após importar o fluxo, clique no primeiro nó, acesse `webhooks url`, clique em `Production URL` e copie o valor dessa URL.
+**Obs: Lembre-se de ativar o workflow no n8n**
 
-### Configuração do Deploy
+9. Crie um arquivo `.env` na pasta web e preencha com as seguintes informações, sendo que a URL da API é a URL do backend e a segunda variável deve ter como valor a URL que extraimos no n8n:
 
-1. **Conecte com a Vercel**
-```bash
-npm i -g vercel
-vercel login
-```
+    ```
+    NEXT_PUBLIC_API_URL=
+    NEXT_PUBLIC_CHAT_WEBHOOK=
+    ```
 
-2. **Configure o projeto**
-```bash
-vercel
-```
+10. Instale as dependências dos projetos `web` e `backend` com o comando `npm i` em cada uma das pastas
 
-3. **Variáveis de Ambiente na Vercel**
-Configure as seguintes variáveis:
-- `DATABASE_URL`
-- `SUPABASE_KEY`
-- `NODE_ENV=production`
+11. Abra as pastas `web` e `backend` em dois terminais diferentes e rode o comando `npm run dev` em cada um dos terminais para executar o projeto. 
 
-4. **Deploy em Produção**
-```bash
-vercel --prod
-```
+## 🗒️ Features do projeto 🗒️
 
-Para mais detalhes, consulte a [documentação da Vercel para NestJS](https://vercel.com/guides/using-nestjs-with-vercel).
+-   Exibição de Projetos
+-   Integração com Agentes de IA via Chat
+-   Repositórios GitHub Integrados
+-   Lista de tecnologias destacadas
+-   Lista de tecnologias dos projetos
+-   Buscar os projetos por Id com as tecnologias associadas
 
-## Contribuição
+![](./.gitassets/2.png)   
 
-1. Faça o fork do projeto
-2. Crie sua feature branch (`git checkout -b feature/MinhaFeature`)
-3. Commit suas mudanças (`git commit -m 'Adiciona MinhaFeature'`)
-4. Push para a branch (`git push origin feature/MinhaFeature`)
-5. Abra um Pull Request
+## 💎 Links úteis 💎
 
-## Licença
-
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+-   [Next.js](https://nextjs.org/docs)
+-   [NestJS](https://docs.nestjs.com/)
+-   [Prisma](https://www.prisma.io/docs)
+-   [Supabase](https://supabase.com)

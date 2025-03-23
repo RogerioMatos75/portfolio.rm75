@@ -19,10 +19,11 @@ async function bootstrap() {
 
   // Swagger documentation setup
   const config = new DocumentBuilder()
-    .setTitle('Portfolio API')
-    .setDescription('API for managing portfolio data')
-    .setVersion('1.0')
-    .addTag('portfolio')
+    .setTitle('Portfolio RM75')
+    .setDescription('API para gerenciamento de portfólio profissional\n\n**Recursos principais:**\n- Gestão de projetos\n- Catálogo de habilidades técnicas\n- Histórico profissional\n- Formação acadêmica')
+    .setVersion('1.2')
+    .setContact('Rogerio Matos', 'https://rm75.dev', 'rogerio.matos1975@gmail.com')
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);

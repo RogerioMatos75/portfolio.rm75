@@ -1,52 +1,144 @@
 import { PrismaClient } from '@prisma/client';
 import * as fs from 'fs';
 import * as path from 'path';
-import { parse } from 'csv-parse';
+import { parse } from 'csv-parse/sync';
 
 const prisma = new PrismaClient();
 
 interface TechnologyData {
-    id: string;
-    nome: string;
-    destaque: string;
-    descricao: string;
-    imagem: string;
+  id: string;
+  nome: string;
+  destaque: boolean;
+  descricao: string;
+  imagem: string;
+}
+
+interface ProjectData {
+  id: string;
+  nome: string;
+  descricao: string;
+  tipo: string;
+  imagens: string;
+  nivel: number;
+  repositorio: string;
+  destaque: boolean;
+}
+
+function loadTechnologiesCSV(filePath: string): TechnologyData[] {
+  try {
+    const fileContent = fs.readFileSync(filePath, { encoding: 'utf-8' });
+    return parse(fileContent, {
+      columns: true,
+      skip_empty_lines: true,
+    });
+  } catch (error) {
+    console.error(`Error loading CSV file ${filePath}:`, error);
+    return [];
+  }
+}
+
+function loadProjectsCSV(filePath: string): ProjectData[] {
+  try {
+    const fileContent = fs.readFileSync(filePath, { encoding: 'utf-8' });
+    return parse(fileContent, {
+      columns: true,
+      skip_empty_lines: true,
+    });
+  } catch (error) {
+    console.error(`Error loading CSV file ${filePath}:`, error);
+    return [];
+  }
+}
+
+async function seedTechnologies() {
+  try {
+    const technologiesData: TechnologyData[] = loadTechnologiesCSV(
+      path.join(__dirname, 'data', 'tecnologies.csv')
+    );
+
+    for (const tech of technologiesData) {
+      await prisma.technology.upsert({
+        where: { id: tech.id },
+        update: {
+          name: tech.nome,
+          description: tech.descricao,
+          icon: tech.imagem,
+          destaque: tech.destaque,
+        },
+        create: {
+          id: tech.id,
+          name: tech.nome,
+          description: tech.descricao,
+          icon: tech.imagem,
+          destaque: tech.destaque,
+        },
+      });
+    }
+    console.log('Technologies seeded successfully');
+  } catch (error) {
+    console.error('Error seeding technologies:', error);
+  }
+}
+
+async function seedProjects() {
+  try {
+    const projectsData: ProjectData[] = loadProjectsCSV(
+      path.join(__dirname, 'data', 'projects.csv')
+    );
+
+    for (const project of projectsData) {
+      try {
+        const imageArray = JSON.parse(project.imagens.replace(/'/g, '"'));
+
+        await prisma.project.upsert({
+          where: { id: project.id },
+          update: {
+            name: project.nome,
+            description: project.descricao,
+            tipo: project.tipo,
+            imageUrl: imageArray,
+            nivel: project.nivel,
+            repositorio: project.repositorio,
+            destaque: project.destaque,
+          },
+          create: {
+            id: project.id,
+            name: project.nome,
+            description: project.descricao,
+            tipo: project.tipo,
+            imageUrl: imageArray,
+            nivel: project.nivel,
+            repositorio: project.repositorio,
+            destaque: project.destaque,
+          },
+        });
+      } catch (error) {
+        console.error(`Error processing project ${project.id}:`, error);
+      }
+    }
+    console.log('Projects seeded successfully');
+  } catch (error) {
+    console.error('Error seeding projects:', error);
+  }
 }
 
 async function main() {
-    try {
-        const csvFilePath = path.resolve(__dirname, './data/tecnologies.csv');
-        const fileContent = fs.readFileSync(csvFilePath, { encoding: 'utf-8' });
-
-        const records: TechnologyData[] = await new Promise((resolve, reject) => {
-            const results: TechnologyData[] = [];
-            fs.createReadStream(csvFilePath)
-                .pipe(parse({ columns: true, delimiter: ',' }))
-                .on('data', (data) => results.push(data))
-                .on('end', () => resolve(results))
-                .on('error', (error) => reject(error));
-        });
-
-        console.log(`Iniciando migração de ${records.length} tecnologias...`);
-
-        for (const record of records) {
-            await prisma.technology.create({
-                data: {
-                    name: record.nome,
-                    description: record.descricao,
-                    icon: record.imagem,
-                    category: 'development', // Categoria padrão
-                },
-            });
-        }
-
-        console.log('Migração concluída com sucesso!');
-    } catch (error) {
-        console.error('Erro durante a migração:', error);
-        process.exit(1);
-    } finally {
-        await prisma.$disconnect();
-    }
+  try {
+    await seedTechnologies();
+    await seedProjects();
+    console.log('Seed completed successfully');
+  } catch (error) {
+    console.error('Error during seed:', error);
+  } finally {
+    await prisma.$disconnect();
+  }
 }
 
-main();
+async function run() {
+  await main();
+}
+
+run().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});
